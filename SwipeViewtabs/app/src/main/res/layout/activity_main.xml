@@ -19,11 +19,13 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            app:titleTextAppearance="@style/ActionBar.TitleText"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:popupTheme="@style/ActionBarPopupThemeOverlay"
+            app:navigationIcon="@drawable/ic_golf_course_black_32dp">
 
         </android.support.v7.widget.Toolbar>
 
@@ -36,7 +38,7 @@
                 android:id="@+id/tabItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:icon="@drawable/ic_playlist_add_black_24dp"/>
+                android:icon="@drawable/ic_playlist_add_check_black_24dp" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
