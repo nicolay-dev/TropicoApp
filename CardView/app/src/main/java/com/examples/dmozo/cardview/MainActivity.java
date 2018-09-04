@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> dataList;
+    ArrayList<Producto> dataList;
     RecyclerView recycler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +23,19 @@ public class MainActivity extends AppCompatActivity {
         //PARAMS: (Context,Rows)
         //recycler.setLayoutManager(new GridLayoutManager(this, 3));
         dataList = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            dataList.add("Item "+i);
-        }
+        cargarProductos();
 
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataList);
+        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataList, getResources().getDisplayMetrics().heightPixels);
         recycler.setAdapter(recyclerAdapter);
+
     }
+
+    private void cargarProductos(){
+        dataList.add(new Producto("Producto 1", "Descripción del producto 1", R.drawable.ic_class_black_24dp));
+        dataList.add(new Producto("Producto 2", "Descripción del producto 2", R.drawable.ic_class_black_24dp));
+        dataList.add(new Producto("Producto 3", "Descripción del producto 3", R.drawable.ic_class_black_24dp));
+        dataList.add(new Producto("Producto 4", "Descripción del producto 4", R.drawable.ic_class_black_24dp));
+        dataList.add(new Producto("Producto 5", "Descripción del producto 5", R.drawable.ic_class_black_24dp));
+    }
+
 }
