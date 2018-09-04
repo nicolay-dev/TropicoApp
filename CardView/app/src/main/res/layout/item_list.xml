@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
         card_view:cardBackgroundColor="@color/colorPrimary"
         card_view:cardCornerRadius="8dp"
         card_view:cardElevation="5dp">
@@ -52,27 +50,35 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" >
 
                     <Button
+                        android:id="@+id/btnSus"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:text="-" />
 
                     <EditText
+                        android:id="@+id/quantity"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dp"
+                        android:inputType="number"
+
                         android:text="0"
                         android:textAlignment="center" />
 
                     <Button
+                        android:id="@+id/btnAdd"
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="5dp"
+                        android:onClick="addProduct"
                         android:text="+" />
 
                 </LinearLayout>
@@ -81,3 +87,6 @@
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
+
+    <!--android:clickable="true"-->
+    <!--android:foreground="?android:attr/selectableItemBackground"-->
