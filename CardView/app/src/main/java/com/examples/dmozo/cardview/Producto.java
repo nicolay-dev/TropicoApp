@@ -4,12 +4,20 @@ public class Producto {
 
     private String title;
     private String subtitle;
-    private int image;
+    private int image, quantity = 0;
 
     public Producto(String title, String subtitle, int image) {
         this.title = title;
         this.subtitle = subtitle;
         this.image = image;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getTitle() {

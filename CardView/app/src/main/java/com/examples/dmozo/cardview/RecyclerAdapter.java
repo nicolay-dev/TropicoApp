@@ -1,11 +1,8 @@
 package com.examples.dmozo.cardview;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 if (text.equals("")){
                     text = "0";
                 }int add = Integer.parseInt(text)+1;
+                dataList.get(position).setQuantity(add);
                 holder.editText.setText(""+add);
             }
         });
@@ -58,13 +56,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             public void onClick(View v) {
                 String text = holder.editText.getText().toString();
                 if (text.equals("")){
+                    dataList.get(position).setQuantity(0);
                     holder.editText.setText("0");
                 }else{
                     int sus = Integer.parseInt(text);
                     if (sus>0) {
                         sus--;
+                        dataList.get(position).setQuantity(sus);
                         holder.editText.setText(""+sus);
                     }
+                }for (int i = 0; i < dataList.size(); i++) {
+                    Log.d("***************","Cantidades*********"+dataList.get(i).getQuantity());
                 }
 
             }
