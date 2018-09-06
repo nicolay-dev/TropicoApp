@@ -1,45 +1,46 @@
 package com.examples.dmozo.cardview;
 
+import android.net.Uri;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
+import com.examples.dmozo.cardview.adapters.ViewpagerAdapter;
+import com.examples.dmozo.cardview.fragments.FragmentPrint;
+import com.examples.dmozo.cardview.fragments.FragmentProducts;
 
-public class MainActivity extends AppCompatActivity {
-
-    ArrayList<Producto> dataList;
-    RecyclerView recycler;
+public class MainActivity extends AppCompatActivity implements FragmentPrint.OnFragmentInteractionListener,
+        FragmentProducts.OnFragmentInteractionListener{
+    ViewpagerAdapter mViewPagerAdapter;
+    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recycler = findViewById(R.id.recyclerId);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
-        //PARAMS: (Context,Rows)
-        //recycler.setLayoutManager(new GridLayoutManager(this, 3));
-        dataList = new ArrayList<>();
-        cargarProductos();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataList);
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mViewPagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
 
-        recycler.setAdapter(recyclerAdapter);
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mViewPagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
     }
 
-    private void cargarProductos(){
-        dataList.add(new Producto("Producto 1", "Descripción del producto 1", R.drawable.ic_class_black_24dp));
-        dataList.add(new Producto("Producto 2", "Descripción del producto 2", R.drawable.ic_class_black_24dp));
-        dataList.add(new Producto("Producto 3", "Descripción del producto 3", R.drawable.ic_class_black_24dp));
-        dataList.add(new Producto("Producto 4", "Descripción del producto 4", R.drawable.ic_class_black_24dp));
-        dataList.add(new Producto("Producto 5", "Descripción del producto 5", R.drawable.ic_class_black_24dp));
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
 }

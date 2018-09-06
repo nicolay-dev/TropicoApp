@@ -1,15 +1,25 @@
-package com.examples.dmozo.cardview;
+package com.examples.dmozo.cardview.pojo;
 
 public class Producto {
 
     private String title;
     private String subtitle;
     private int image, quantity = 0;
+    private int precio;
 
-    public Producto(String title, String subtitle, int image) {
+    public Producto(String title, String subtitle, int image, int precio) {
         this.title = title;
         this.subtitle = subtitle;
         this.image = image;
+        this.precio = precio;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
     }
 
     public int getQuantity() {

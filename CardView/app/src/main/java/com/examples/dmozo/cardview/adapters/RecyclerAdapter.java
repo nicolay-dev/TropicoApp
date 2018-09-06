@@ -1,4 +1,4 @@
-package com.examples.dmozo.cardview;
+package com.examples.dmozo.cardview.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,14 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.examples.dmozo.cardview.pojo.Producto;
+import com.examples.dmozo.cardview.R;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
     ArrayList<Producto> dataList;
-
 
     public RecyclerAdapter(ArrayList<Producto> dataList) {
         this.dataList = dataList;
@@ -26,7 +27,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, null,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent,
                 false);
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.WRAP_CONTENT));

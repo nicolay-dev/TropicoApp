@@ -38,13 +38,15 @@
                     android:layout_height="wrap_content"
                     android:text="Título del producto "
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_light"/>
 
                 <TextView
                     android:id="@+id/subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tal y yal cosa con tal y yal otra tyambien tiene esto "
+                    android:textColor="@color/primary_light"
                     android:textSize="14sp" />
 
                 <LinearLayout
