@@ -3,8 +3,7 @@ package com.examples.dmozo.cardview.entities;
 public class Product {
 
     private String name;
-    private int price;
-    private int image, quantity = 0;
+    private int price, quantity = 0, image;
 
     public Product(String name, int price, int image) {
         this.name = name;
@@ -28,19 +27,19 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public int getImage() {
         return image;
     }
 
     public void setImage(int image) {
         this.image = image;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

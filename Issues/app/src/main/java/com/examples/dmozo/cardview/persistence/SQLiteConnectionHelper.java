@@ -15,6 +15,7 @@ public class SQLiteConnectionHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(DbUtilities.DROP_TABLE_PRODUCTS);
         sqLiteDatabase.execSQL(DbUtilities.CREATE_TABLE_PRODUCTS);
         sqLiteDatabase.execSQL(DbUtilities.INSERT_PRODUCTS);
     }
@@ -22,5 +23,6 @@ public class SQLiteConnectionHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(DbUtilities.DROP_TABLE_PRODUCTS);
+        onCreate(sqLiteDatabase);
     }
 }

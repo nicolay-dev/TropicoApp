@@ -1,18 +1,24 @@
 package com.examples.dmozo.cardview.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.examples.dmozo.cardview.entities.Product;
 import com.examples.dmozo.cardview.R;
 import com.examples.dmozo.cardview.adapters.RecyclerAdapter;
+import com.examples.dmozo.cardview.persistence.SQLiteConnectionHelper;
+import com.examples.dmozo.cardview.utils.DbUtilities;
 
 import java.util.ArrayList;
 
@@ -38,10 +44,12 @@ public class FragmentProducts extends Fragment {
     private RecyclerView recycler;
     private ArrayList<Product> dataList;
     private OnFragmentInteractionListener mListener;
+    private SQLiteConnectionHelper connectionHelper;
 
     public FragmentProducts() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -52,7 +60,7 @@ public class FragmentProducts extends Fragment {
      * @return A new instance of fragment FragmentProducts.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentProducts newInstance(String param1, String param2) {
+    public static FragmentProducts newInstance(String param1, String param2, SQLiteConnectionHelper connectionHelper) {
         FragmentProducts fragment = new FragmentProducts();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -74,12 +82,12 @@ public class FragmentProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        dataList = new ArrayList<>();
+        connectionHelper = new SQLiteConnectionHelper(getContext(),DbUtilities.DB_NAME,null, 1);
+        cargarProductos();
 
         View view = inflater.inflate(R.layout.fragment_fragment_products, container, false);
-
         recycler = view.findViewById(R.id.recyclerId);
-        dataList = new ArrayList<>();
-        cargarProductos();
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         //PARAMS: (Context,Rows)
         //recycler.setLayoutManager(new GridLayoutManager(this, 3));
@@ -90,12 +98,24 @@ public class FragmentProducts extends Fragment {
 
 
     private void cargarProductos(){
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
+        SQLiteDatabase db = connectionHelper.getReadableDatabase();
+        Product product = null;
+        //String[] columns = {DbUtilities.ROW_NAME, DbUtilities.ROW_PRICE, DbUtilities.ROW_IMAGE,};
+        try{
+            Log.d("************","Log desde cargar productos");
+            Cursor cursor = db.rawQuery(DbUtilities.SELECT_TABLE_PRODUCTS, null);
+            Log.d("************","Cursor creado");
+            //Cursor cursor = db.query(DbUtilities.TABLE_PRODUCTS_NAME, columns, null, null, null, null,null);
+            while (cursor.moveToNext()){
+                product = new Product(cursor.getString(1), cursor.getInt(2), Integer.parseInt(cursor.getString(3)));
+                this.dataList.add(product);
+            }
+            Log.d("************","Fin del cursor"+cursor.getCount()+"Tamaño de la lista = "+dataList.size());
+            cursor.close();
+            db.close();
+        }catch (Exception e){
+            Toast.makeText(this.getContext(), "Error al cargar productos: "+e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

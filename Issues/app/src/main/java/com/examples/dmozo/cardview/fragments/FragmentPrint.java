@@ -4,28 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.examples.dmozo.cardview.entities.Product;
 import com.examples.dmozo.cardview.R;
-import com.examples.dmozo.cardview.adapters.RecyclerAdapter;
-
-import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentProducts.OnFragmentInteractionListener} interface
+ * {@link FragmentPrint.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentProducts#newInstance} factory method to
+ * Use the {@link FragmentPrint#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentProducts extends Fragment {
+public class FragmentPrint extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +29,9 @@ public class FragmentProducts extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView recycler;
-    private ArrayList<Product> dataList;
     private OnFragmentInteractionListener mListener;
 
-    public FragmentProducts() {
+    public FragmentPrint() {
         // Required empty public constructor
     }
 
@@ -49,11 +41,11 @@ public class FragmentProducts extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentProducts.
+     * @return A new instance of fragment FragmentPrint.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentProducts newInstance(String param1, String param2) {
-        FragmentProducts fragment = new FragmentProducts();
+    public static FragmentPrint newInstance(String param1, String param2) {
+        FragmentPrint fragment = new FragmentPrint();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -74,28 +66,7 @@ public class FragmentProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_fragment_products, container, false);
-
-        recycler = view.findViewById(R.id.recyclerId);
-        dataList = new ArrayList<>();
-        cargarProductos();
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //PARAMS: (Context,Rows)
-        //recycler.setLayoutManager(new GridLayoutManager(this, 3));
-        RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataList);
-        recycler.setAdapter(recyclerAdapter);
-        return view;
-    }
-
-
-    private void cargarProductos(){
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
-        dataList.add(new Product("Product 1", 15000, R.drawable.ic_class_black_24dp ));
+        return inflater.inflate(R.layout.fragment_fragment_print, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
