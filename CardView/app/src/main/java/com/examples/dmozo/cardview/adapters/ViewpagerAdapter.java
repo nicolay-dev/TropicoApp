@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.examples.dmozo.cardview.fragments.FragmentPrint;
 import com.examples.dmozo.cardview.fragments.FragmentProducts;
+import com.examples.dmozo.cardview.persistence.SQLiteConnectionHelper;
 
 
 public class ViewpagerAdapter extends FragmentPagerAdapter {
-
 
     public ViewpagerAdapter(FragmentManager fm) {
         super(fm);
@@ -48,9 +48,10 @@ public class ViewpagerAdapter extends FragmentPagerAdapter {
                 case 1:
                     fragment = new FragmentPrint();
                     break;
-            }
-            return fragment;
+            }return fragment;
         }
+
+
 
     }
 

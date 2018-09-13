@@ -1,6 +1,8 @@
 package com.examples.dmozo.cardview.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.examples.dmozo.cardview.pojo.Producto;
+import com.examples.dmozo.cardview.entities.Product;
 import com.examples.dmozo.cardview.R;
 import com.examples.dmozo.cardview.adapters.RecyclerAdapter;
+import com.examples.dmozo.cardview.persistence.SQLiteConnectionHelper;
+import com.examples.dmozo.cardview.utils.DbUtilities;
 
 import java.util.ArrayList;
 
@@ -36,12 +41,14 @@ public class FragmentProducts extends Fragment {
     private String mParam2;
 
     private RecyclerView recycler;
-    private ArrayList<Producto> dataList;
+    private ArrayList<Product> dataList;
     private OnFragmentInteractionListener mListener;
+    private SQLiteConnectionHelper connectionHelper;
 
     public FragmentProducts() {
         // Required empty public constructor
     }
+
 
     /**
      * Use this factory method to create a new instance of
@@ -52,7 +59,7 @@ public class FragmentProducts extends Fragment {
      * @return A new instance of fragment FragmentProducts.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentProducts newInstance(String param1, String param2) {
+    public static FragmentProducts newInstance(String param1, String param2, SQLiteConnectionHelper connectionHelper) {
         FragmentProducts fragment = new FragmentProducts();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -64,6 +71,7 @@ public class FragmentProducts extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        connectionHelper = new SQLiteConnectionHelper(this.getContext(), DbUtilities.DB_NAME, null,1);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -74,7 +82,6 @@ public class FragmentProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_fragment_products, container, false);
 
         recycler = view.findViewById(R.id.recyclerId);
@@ -90,11 +97,19 @@ public class FragmentProducts extends Fragment {
 
 
     private void cargarProductos(){
-        dataList.add(new Producto("Producto 1", "Descripción del producto 1", R.drawable.ic_class_black_24dp, 15000));
-        dataList.add(new Producto("Producto 2", "Descripción del producto 2", R.drawable.ic_class_black_24dp,15000));
-        dataList.add(new Producto("Producto 3", "Descripción del producto 3", R.drawable.ic_class_black_24dp,15000));
-        dataList.add(new Producto("Producto 4", "Descripción del producto 4", R.drawable.ic_class_black_24dp,15000));
-        dataList.add(new Producto("Producto 5", "Descripción del producto 5", R.drawable.ic_class_black_24dp, 15000));
+        SQLiteDatabase db = connectionHelper.getReadableDatabase();
+        Product product = null;
+        //String[] columns = {DbUtilities.ROW_NAME, DbUtilities.ROW_PRICE, DbUtilities.ROW_IMAGE,};
+        try{
+            Cursor cursor = db.rawQuery(DbUtilities.SELECT_TABLE_PRODUCTS, null);
+            //Cursor cursor = db.query(DbUtilities.TABLE_PRODUCTS_NAME, columns, null, null, null, null,null);
+            while (cursor.moveToNext()){
+                product = new Product(cursor.getString(1), cursor.getInt(2), cursor.getInt(3));
+                this.dataList.add(product);
+            }db.close();
+        }catch (Exception e){
+            Toast.makeText(this.getContext(), "Error al cargar productos: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -11,16 +11,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.examples.dmozo.cardview.pojo.Producto;
+import com.examples.dmozo.cardview.entities.Product;
 import com.examples.dmozo.cardview.R;
 
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder>{
 
-    ArrayList<Producto> dataList;
+    ArrayList<Product> dataList;
 
-    public RecyclerAdapter(ArrayList<Producto> dataList) {
+    public RecyclerAdapter(ArrayList<Product> dataList) {
         this.dataList = dataList;
     }
 
@@ -38,8 +38,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        holder.title.setText(dataList.get(position).getTitle());
-        holder.subtitle.setText(dataList.get(position).getSubtitle());
+        holder.title.setText(dataList.get(position).getName());
+        holder.price.setText(dataList.get(position).getPrice());
         holder.imageView.setImageResource(dataList.get(position).getImage());
         holder.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        TextView subtitle;
+        TextView price;
         ImageView imageView;
         EditText editText;
         Button buttonAdd, buttonSus;
@@ -90,7 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(final View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
-            subtitle = itemView.findViewById(R.id.subtitle);
+            price = itemView.findViewById(R.id.subtitle);
             imageView = itemView.findViewById(R.id.imagen);
             editText = itemView.findViewById(R.id.quantity);
             buttonAdd = itemView.findViewById(R.id.btnAdd);
