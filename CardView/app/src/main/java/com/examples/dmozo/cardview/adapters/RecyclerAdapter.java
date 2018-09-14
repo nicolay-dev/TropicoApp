@@ -18,12 +18,6 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     ArrayList<Product> dataList;
-    private OnItemClickListener listener;
-
-    interface OnItemClickListener {
-        public void addProduct(ViewHolder holder, int position);
-        public void susProduct(ViewHolder holder, int position);
-    }
 
     public RecyclerAdapter(ArrayList<Product> dataList) {
         this.dataList = dataList;
@@ -36,14 +30,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 false);
         view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.WRAP_CONTENT));
-        return new ViewHolder(view);
+        ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.productName = view.findViewById(R.id.name);
+        viewHolder.price = view.findViewById(R.id.price);
+        viewHolder.imageView = view.findViewById(R.id.imagen);
+        viewHolder.editText = view.findViewById(R.id.quantity);
+        viewHolder.buttonAdd = view.findViewById(R.id.btnAdd);
+        viewHolder.buttonSus = view.findViewById(R.id.btnSus);
+        viewHolder.buttonAdd.setOnClickListener(viewHolder);
+        viewHolder.buttonSus.setOnClickListener(viewHolder);
+        return viewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(dataList.get(position).getName());
-        holder.subtitle.setText(dataList.get(position).getPrice());
+        holder.productName.setText(dataList.get(position).getName());
+        holder.price.setText(String.valueOf(dataList.get(position).getPrice()));
         holder.imageView.setImageResource(dataList.get(position).getImage());
+        holder.editText.setText(String.valueOf(dataList.get(position).getQuantity()));
     }
 
     @Override
@@ -51,99 +56,54 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return this.dataList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnItemClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView title;
-        TextView subtitle;
-        ImageView imageView;
-        EditText editText;
-        Button buttonAdd, buttonSus;
+        private TextView productName;
+        private TextView price;
+        private ImageView imageView;
+        private EditText editText;
+        private Button buttonAdd, buttonSus;
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            subtitle = itemView.findViewById(R.id.subtitle);
-            imageView = itemView.findViewById(R.id.imagen);
-            editText = itemView.findViewById(R.id.quantity);
-            buttonAdd = itemView.findViewById(R.id.btnAdd);
-            buttonSus = itemView.findViewById(R.id.btnSus);
-            buttonAdd.setOnClickListener(this);
-            buttonSus.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btnAdd:
-                    addProduct(this, getAdapterPosition());
+                    addProduct();
                     break;
                 case R.id.btnSus:
-                    susProduct(this, getAdapterPosition());
+                    susProduct();
                     break;
                 default:
                     break;
             }
         }
 
-
-        @Override
-        public void addProduct(ViewHolder holder, int position) {
-            String text = holder.editText.getText().toString();
+        public void addProduct() {
+            String text = this.editText.getText().toString();
             if (text.equals("")){
                 text = "0";
             }int add = Integer.parseInt(text)+1;
-            dataList.get(position).setQuantity(add);
-            holder.editText.setText(""+add);
+            dataList.get(getAdapterPosition()).setQuantity(add);
+            this.editText.setText(""+add);
         }
 
-        @Override
-        public void susProduct(ViewHolder holder, int position) {
-            String text = holder.editText.getText().toString();
+        public void susProduct() {
+            String text = this.editText.getText().toString();
             if (text.equals("")){
-                dataList.get(position).setQuantity(0);
-                holder.editText.setText("0");
+                dataList.get(getAdapterPosition()).setQuantity(0);
+                this.editText.setText("0");
             }else{
                 int sus = Integer.parseInt(text);
                 if (sus>0) {
                     sus--;
-                    dataList.get(position).setQuantity(sus);
-                    holder.editText.setText(""+sus);
+                    dataList.get(getAdapterPosition()).setQuantity(sus);
+                    this.editText.setText(""+sus);
                 }
             }
         }
     }
 }
-
-
-/*
-@Override
-            public void onClick(View v) {
-                String text = holder.editText.getText().toString();
-                if (text.equals("")){
-                    text = "0";
-                }int add = Integer.parseInt(text)+1;
-                dataList.get(position).setQuantity(add);
-                holder.editText.setText(""+add);
-            }
-        });
-        holder.buttonSus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = holder.editText.getText().toString();
-                if (text.equals("")){
-                    dataList.get(position).setQuantity(0);
-                    holder.editText.setText("0");
-                }else{
-                    int sus = Integer.parseInt(text);
-                    if (sus>0) {
-                        sus--;
-                        dataList.get(position).setQuantity(sus);
-                        holder.editText.setText(""+sus);
-                    }
-                }for (int i = 0; i < dataList.size(); i++) {
-                    Log.d("***************","Cantidades*********"+dataList.get(i).getQuantity());
-                }
-
-            }
-        });
- */
