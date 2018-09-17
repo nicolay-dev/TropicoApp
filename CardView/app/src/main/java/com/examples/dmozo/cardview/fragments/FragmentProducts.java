@@ -85,18 +85,18 @@ public class FragmentProducts extends Fragment {
         dataList = new ArrayList<>();
         cargarProductos();
         recycler = view.findViewById(R.id.recyclerId);
+        //PARAMS: (Context,Rows)
+        //recycler.setLayoutManager(new GridLayoutManager(this, 3));
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerAdapter recyclerAdapter = new RecyclerAdapter(dataList);
         recycler.setAdapter(recyclerAdapter);
-    }
+}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_products, container, false);
-        //PARAMS: (Context,Rows)
-        //recycler.setLayoutManager(new GridLayoutManager(this, 3));
         return view;
     }
 
